@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}CyberQuest — Quiz: {{ stage.title }}{% endblock %}
+
+{% block nav %}
+<nav class="top-nav">
+    <div class="nav-logo">
+        <a href="/lesson/{{ stage.id }}" class="back-btn pixel-btn btn-sm btn-ghost">◀ REVIEW</a>
+    </div>
+    <div class="nav-user">
+        <span class="nav-stage-type {{ stage.type }}-text">
+            {% if stage.type == 'hacking' %}⚔ HACKING{% else %}🛡 DEFENCE{% endif %}
+        </span>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="quiz-page">
+
+    <!-- Quiz Active Screen -->
+    <div id="quiz-screen">
+        <div class="quiz-header">
+            <div class="stage-badge {{ stage.type }}-badge">{{ stage.title|upper }}</div>
+            <div class="quiz-progress-bar">
+                <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+            </div>
+            <span class="quiz-counter" id="quiz-counter">QUESTION 1 / {{ stage.quiz|length }}</span>
+        </div>
+
+        <div class="question-card pixel-card" id="question-card">
+            <div class="question-number" id="question-number">Q1</div>
+            <p class="question-text" id="question-text"></p>
+            <div class="options-grid" id="options-grid"></div>
+            <div class="answer-feedback hidden" id="answer-feedback"></div>
+            <button class="pixel-btn btn-primary btn-large hidden" id="next-question-btn" onclick="nextQuestion()">
+                NEXT ▶
+            </button>
+        </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="results-screen" class="hidden">
+        <div class="results-card pixel-card">
+            <div class="results-icon" id="results-icon"></div>
+            <h2 class="results-title" id="results-title"></h2>
+            <div class="score-display">
+                <div class="score-number" id="score-number"></div>
+                <div class="score-label">SCORE</div>
+            </div>
+            <div class="score-bar-wrapper">
+                <div class="score-bar">
+                    <div class="score-bar-fill" id="score-bar-fill"></div>
+                </div>
+                <div class="score-bar-labels">
+                    <span>0%</span>
+                    <span class="pass-mark">PASS: 80%</span>
+                    <span>100%</span>
+                </div>
+            </div>
+            <p class="results-message" id="results-message"></p>
+
+            <div class="results-breakdown" id="results-breakdown"></div>
+
+            <div class="results-actions">
+                <a href="/stages" class="pixel-btn btn-ghost">◀ STAGES</a>
+                <button class="pixel-btn btn-primary" id="retry-btn" onclick="retryQuiz()">↺ RETRY</button>
+                <a href="#" class="pixel-btn btn-success hidden" id="next-stage-btn">NEXT STAGE ▶</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const quizData = {{ stage.quiz | tojson }};
+    const stageId = "{{ stage.id }}";
+    const stageType = "{{ stage.type }}";
+</script>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}CyberQuest — Login{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-container">
+        <div class="logo-wrapper">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CyberQuest" class="logo">
+        </div>
+
+        <div class="auth-card pixel-card">
+            <div class="auth-tabs">
+                <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">LOGIN</button>
+                <button class="tab-btn" id="tab-signup" onclick="switchTab('signup')">SIGN UP</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="form-login" class="auth-form">
+                <div class="field-group">
+                    <label class="pixel-label">USERNAME / EMAIL</label>
+                    <input type="text" id="login-username" class="pixel-input" placeholder="enter username...">
+                </div>
+                <div class="field-group">
+                    <label class="pixel-label">PASSWORD</label>
+                    <input type="password" id="login-password" class="pixel-input" placeholder="enter password...">
+                </div>
+                <div id="login-error" class="error-msg hidden"></div>
+                <button class="pixel-btn btn-primary btn-full" onclick="handleLogin()">
+                    <span>▶ ENTER</span>
+                </button>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="form-signup" class="auth-form hidden">
+                <div class="field-group">
+                    <label class="pixel-label">USERNAME</label>
+                    <input type="text" id="signup-username" class="pixel-input" placeholder="choose a username...">
+                </div>
+                <div class="field-group">
+                    <label class="pixel-label">EMAIL</label>
+                    <input type="email" id="signup-email" class="pixel-input" placeholder="your email address...">
+                </div>
+                <div class="field-group">
+                    <label class="pixel-label">PASSWORD</label>
+                    <input type="password" id="signup-password" class="pixel-input" placeholder="min 8 characters...">
+                </div>
+                <div class="field-group">
+                    <label class="pixel-label">CONFIRM PASSWORD</label>
+                    <input type="password" id="signup-confirm" class="pixel-input" placeholder="repeat password...">
+                </div>
+                <div id="signup-error" class="error-msg hidden"></div>
+                <button class="pixel-btn btn-primary btn-full" onclick="handleSignup()">
+                    <span>▶ CREATE ACCOUNT</span>
+                </button>
+            </div>
+        </div>
+
+        <p class="auth-tagline">// MASTER CYBERSECURITY //</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock %}

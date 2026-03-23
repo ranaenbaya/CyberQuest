@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}CyberQuest — {{ stage.title }}{% endblock %}
+
+{% block nav %}
+<nav class="top-nav">
+    <div class="nav-logo">
+        <a href="/stages" class="back-btn pixel-btn btn-sm btn-ghost">◀ BACK</a>
+    </div>
+    <div class="nav-user">
+        <span class="nav-stage-type {{ stage.type }}-text">
+            {% if stage.type == 'hacking' %}⚔ HACKING{% else %}🛡 DEFENCE{% endif %}
+        </span>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="lesson-page">
+    <div class="lesson-header">
+        <div class="stage-badge {{ stage.type }}-badge">STAGE {{ stage.order }}</div>
+        <h1 class="lesson-title {{ stage.type }}-text">{{ stage.title }}</h1>
+        <p class="lesson-subtitle">{{ stage.subtitle }}</p>
+    </div>
+
+    <div class="slide-viewer">
+        <div class="slides-container" id="slides-container">
+            {% for slide in stage.slides %}
+            <div class="slide pixel-card {% if loop.first %}active{% endif %}" data-index="{{ loop.index0 }}">
+                <div class="slide-icon">{{ slide.icon }}</div>
+                <h2 class="slide-title">{{ slide.title }}</h2>
+                <div class="slide-content">{{ slide.content }}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="slide-controls">
+            <button class="nav-arrow arrow-left pixel-btn btn-ghost" id="prev-btn" onclick="prevSlide()" disabled>
+                ◀
+            </button>
+
+            <div class="slide-progress">
+                <div class="slide-dots" id="slide-dots">
+                    {% for slide in stage.slides %}
+                    <div class="dot {% if loop.first %}active{% endif %}" data-index="{{ loop.index0 }}" onclick="goToSlide({{ loop.index0 }})"></div>
+                    {% endfor %}
+                </div>
+                <span class="slide-counter" id="slide-counter">1 / {{ stage.slides|length }}</span>
+            </div>
+
+            <button class="nav-arrow arrow-right pixel-btn btn-primary" id="next-btn" onclick="nextSlide()">
+                ▶
+            </button>
+        </div>
+    </div>
+
+    <div class="lesson-footer" id="lesson-footer" style="display: none;">
+        <div class="ready-message pixel-card">
+            <div class="ready-icon">🎯</div>
+            <h3 class="ready-title">READY FOR THE CHALLENGE?</h3>
+            <p class="ready-text">You've completed all lesson slides. Time to test your knowledge!</p>
+            <a href="/quiz/{{ stage.id }}" class="pixel-btn btn-primary btn-large">
+                ▶ START QUIZ
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const totalSlides = {{ stage.slides|length }};
+    const stageId = "{{ stage.id }}";
+</script>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/lesson.js') }}"></script>
+{% endblock %}
